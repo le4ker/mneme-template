@@ -40,8 +40,8 @@ like workouts, dives, or sessions?"
 For each journalled area, ask:
 
 - **Log file name** (e.g. "Workout Log", "Session Log", "Reading Log")
-- **Fields** — what does each entry track? List column names
-  (e.g. "Date, Exercise, Duration, Notes"). Date is always included automatically.
+- **Fields** — what does each entry track? List column names (e.g. "Date,
+  Exercise, Duration, Notes"). Date is always included automatically.
 
 ### 1c. Vault name
 
@@ -50,7 +50,8 @@ Ask: "What do you want to call your vault?" (e.g. "My Mind Palace", "Atlas",
 
 ## Step 2 — Generate files
 
-Perform the following without further prompting once you have all the information.
+Perform the following without further prompting once you have all the
+information.
 
 ### 2a. Folder structure
 
