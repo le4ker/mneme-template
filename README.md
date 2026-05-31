@@ -17,6 +17,53 @@ A personal knowledge vault powered by [Obsidian](https://obsidian.md) and
 - **Auto-formatting** — Prettier + markdownlint run on every commit via
   pre-commit hook
 
+## 🔄 Workflow
+
+```mermaid
+flowchart LR
+    subgraph capture ["Capture"]
+        inbox["/inbox"]
+        logarea["/log-{area}"]
+    end
+
+    subgraph process ["Process"]
+        processinbox["/process-inbox"]
+    end
+
+    subgraph reviewsg ["Review"]
+        reviewcmd["/review"]
+    end
+
+    subgraph sync ["Sync"]
+        syncvault["/sync-vault"]
+    end
+
+    subgraph vault ["Vault"]
+        Inbox["Inbox/"]
+        Areas["Areas/"]
+        Resources["Resources/"]
+    end
+
+    subgraph remote ["Remote"]
+        Git["Git remote"]
+    end
+
+    style capture fill:#eef2ff,stroke:#4f46e5,color:#3730a3
+    style process fill:#eef2ff,stroke:#4f46e5,color:#3730a3
+    style reviewsg fill:#eef2ff,stroke:#4f46e5,color:#3730a3
+    style sync fill:#eef2ff,stroke:#4f46e5,color:#3730a3
+
+    inbox -->|"creates note"| Inbox
+    logarea -->|"logs entry"| Areas
+    Inbox -->|"move / merge"| processinbox
+    processinbox -->|"fits area"| Areas
+    processinbox -->|"ambiguous"| Resources
+    Resources -->|"promote"| reviewcmd
+    reviewcmd -->|"fits area"| Areas
+    Areas -->|"commit & push"| syncvault
+    syncvault --> Git
+```
+
 ## 🧠 Skills
 
 | Skill            | Description                                               |
@@ -51,7 +98,7 @@ keep them free of sensitive content.
 
 ## 🚀 Setup
 
-### Prerequisites
+### 📋 Prerequisites
 
 - [Obsidian](https://obsidian.md) (free)
 - [Claude Code](https://claude.ai/code)
