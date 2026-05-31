@@ -1,0 +1,10 @@
+#!/bin/sh
+
+STAGED_MD=$(git diff --cached --name-only --diff-filter=ACM | grep '\.md$')
+
+if [ -n "$STAGED_MD" ]; then
+  git diff --cached --name-only -z --diff-filter=ACM | grep -z '\.md$' | xargs -0 prettier --write
+  git diff --cached --name-only -z --diff-filter=ACM | grep -z '\.md$' | xargs -0 git add
+  git diff --cached --name-only -z --diff-filter=ACM | grep -z '\.md$' | xargs -0 markdownlint
+  sh "$(git rev-parse --show-toplevel)/.githooks/check-links"
+fi

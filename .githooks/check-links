@@ -1,0 +1,109 @@
+#!/bin/sh
+# Checks staged markdown files for broken Obsidian [[links]].
+# Run standalone to check all vault files: sh .githooks/check-links --all
+
+VAULT_ROOT=$(git rev-parse --show-toplevel)
+
+python3 - "$VAULT_ROOT" "$@" <<'PYEOF'
+import sys, re, os, subprocess
+
+vault_root = sys.argv[1]
+args = sys.argv[2:]
+
+VAULT_DIRS = ('Areas/', 'Resources/', 'Inbox/')
+
+def is_vault_note(path):
+    return any(path.startswith(d) for d in VAULT_DIRS)
+
+if args == ['--all']:
+    staged_files = []
+    for dirpath, dirnames, filenames in os.walk(vault_root):
+        dirnames[:] = [d for d in dirnames if d != '.git']
+        for f in filenames:
+            if f.endswith('.md'):
+                rel = os.path.relpath(os.path.join(dirpath, f), vault_root)
+                if is_vault_note(rel):
+                    staged_files.append(rel)
+    read_from_disk = True
+else:
+    result = subprocess.run(
+        ['git', 'diff', '--cached', '--name-only', '-z', '--diff-filter=ACM'],
+        capture_output=True, text=True, cwd=vault_root,
+    )
+    staged_files = [
+        f for f in result.stdout.split('\0')
+        if f.endswith('.md') and f and is_vault_note(f)
+    ]
+    read_from_disk = False
+
+if not staged_files:
+    sys.exit(0)
+
+# Build index of all .md files relative to vault root
+all_files = set()
+for dirpath, dirnames, filenames in os.walk(vault_root):
+    dirnames[:] = [d for d in dirnames if d != '.git']
+    for f in filenames:
+        if f.endswith('.md'):
+            rel = os.path.relpath(os.path.join(dirpath, f), vault_root)
+            all_files.add(rel)
+
+# Case-insensitive stem index for name-only links
+name_index = {os.path.splitext(os.path.basename(r))[0].lower() for r in all_files}
+
+def resolve_link(target, source_file):
+    """Return True if the Obsidian link target resolves to an existing file."""
+    target = target.rstrip('\\').strip()  # strip escaped-pipe artifact and whitespace
+    target = target.split('#')[0].strip()  # strip heading anchor
+    if not target or target.endswith('/'):
+        return True  # anchor-only or folder link — skip
+
+    if target.startswith('../') or target.startswith('./'):
+        # Relative link — resolve from source directory
+        source_dir = os.path.dirname(os.path.join(vault_root, source_file))
+        resolved = os.path.normpath(os.path.join(source_dir, target + '.md'))
+        return os.path.isfile(resolved)
+
+    target_lower = target.lower()
+
+    if '/' in target:
+        # Path-suffix link — find any file whose normalised path ends with target.md
+        suffix = '/' + target_lower + '.md'
+        for rel in all_files:
+            if rel.replace('\\', '/').lower().endswith(suffix):
+                return True
+        # Also allow exact match (target is a full vault-root-relative path)
+        if (target_lower + '.md') in {r.lower() for r in all_files}:
+            return True
+        return False
+
+    # Name-only link — any file with a matching stem
+    return target_lower in name_index
+
+
+broken = []
+for staged_file in staged_files:
+    if read_from_disk:
+        with open(os.path.join(vault_root, staged_file), encoding='utf-8') as fh:
+            content = fh.read()
+    else:
+        result = subprocess.run(
+            ['git', 'show', f':{staged_file}'],
+            capture_output=True, text=True, cwd=vault_root,
+        )
+        if result.returncode != 0:
+            continue
+        content = result.stdout
+
+    for link_full in re.findall(r'\[\[([^\]]+)\]\]', content):
+        # Strip alias (handle both | and \| for table-escaped pipes)
+        target = re.split(r'\\?\|', link_full)[0]
+        if not resolve_link(target, staged_file):
+            broken.append((staged_file, f'[[{link_full}]]'))
+
+if broken:
+    print('Broken Obsidian links:')
+    for f, link in broken:
+        print(f'  {f}: {link}')
+    sys.exit(1)
+PYEOF

@@ -1,0 +1,6 @@
+MD013:
+  tables: false
+  code_blocks: false
+  line_length: 100
+MD024:
+  siblings_only: true
