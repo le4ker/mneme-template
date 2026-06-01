@@ -9,10 +9,17 @@ A personal knowledge vault powered by [Obsidian](https://obsidian.md) and
 - **Structured Areas** — long-term topics organised in folders you define
 - **Quick capture** — drop thoughts into `Inbox/`, route them later with
   `/process-inbox`
+- **AI-assisted processing** — Claude proposes cross-links and enriches content
+  during inbox triage; you review and approve
+- **Smart staging** — `Resources/` holds notes without a clear home; three
+  related resources trigger promotion to a new Area, stale ones get flagged for
+  deletion
 - **Automated logging** — `/log-{area}` skills for areas with recurring entries,
   generated when you run `/setup`
 - **Periodic reviews** — `/review` surfaces stale notes, broken links, and
   orphaned content
+- **End-to-end encrypted** — `git-crypt` renders your markdown opaque in the
+  remote; only key holders can read your content
 - **Git-backed** — every change is versioned; commit with `/sync-vault`
 - **Auto-formatting** — Prettier + markdownlint run on every commit via
   pre-commit hook
