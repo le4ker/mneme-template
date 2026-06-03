@@ -14,7 +14,7 @@ A personal knowledge vault powered by [Obsidian](https://obsidian.md) and
 - **Smart staging** — `Resources/` holds notes without a clear home; three
   related resources trigger promotion to a new Area, stale ones get flagged for
   deletion
-- **Automated logging** — `/log-{area}` skills for areas with recurring entries,
+- **Area Journaling** — `/log-{area}` skills for areas with recurring entries,
   generated when you run `/setup`
 - **Periodic reviews** — `/review` surfaces stale notes, broken links, and
   orphaned content
