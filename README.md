@@ -4,6 +4,9 @@ A personal knowledge vault powered by [Obsidian](https://obsidian.md) and
 [Claude Code](https://claude.ai/code). Plain markdown files in a Git repository
 — no proprietary formats, no sync fees, no lock-in.
 
+Read the [background post](https://memoryleaks.blog/tech/2026/05/30/mneme.html)
+for the motivation and design decisions behind Mneme.
+
 ## ✨ What you get
 
 - **Structured Areas** — long-term topics organised in folders you define
@@ -67,6 +70,7 @@ flowchart LR
     processinbox -->|"ambiguous"| Resources
     Resources -->|"promote"| reviewcmd
     reviewcmd -->|"fits area"| Areas
+    reviewcmd -->|"stale / irrelevant"| Deleted["🗑 Deleted"]
     Areas -->|"commit & push"| syncvault
     syncvault --> Git
 ```
