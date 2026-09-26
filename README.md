@@ -7,7 +7,7 @@ A personal knowledge vault powered by [Obsidian](https://obsidian.md) and
 Read the [background post](https://memoryleaks.blog/tech/2026/05/30/mneme.html)
 for the motivation and design decisions behind Mneme.
 
-## ✨ What you get
+## What you get
 
 - **Structured Areas** — long-term topics organised in folders you define
 - **Quick capture** — drop thoughts into `Inbox/`, route them later with
@@ -27,7 +27,7 @@ for the motivation and design decisions behind Mneme.
 - **Auto-formatting** — Prettier + markdownlint run on every commit via
   pre-commit hook
 
-## 🔄 Workflow
+## Workflow
 
 ```mermaid
 flowchart LR
@@ -75,7 +75,7 @@ flowchart LR
     syncvault --> Git
 ```
 
-## 🧠 Skills
+## Skills
 
 | Skill            | Description                                               |
 | ---------------- | --------------------------------------------------------- |
@@ -86,7 +86,7 @@ flowchart LR
 | `/review`        | Periodic vault health check                               |
 | `/sync-vault`    | Commit and push all changes                               |
 
-## 🔒 Privacy
+## Privacy
 
 Your vault content is private by default — only you have access to your Git
 repository. For an extra layer of protection, you can encrypt all markdown files
@@ -107,15 +107,15 @@ Then add this to `.gitattributes`:
 Commit messages remain in plaintext — the `/sync-vault` skill reminds you to
 keep them free of sensitive content.
 
-## 🚀 Setup
+## Setup
 
-### 📋 Prerequisites
+### Prerequisites
 
 - [Obsidian](https://obsidian.md)
 - [Claude Code](https://claude.ai/code)
 - macOS with [Homebrew](https://brew.sh)
 
-### 🛠️ Steps
+### Steps
 
 1. Click **Use this template** → **Create a new repository**
 2. Clone your new repo and enter the directory
