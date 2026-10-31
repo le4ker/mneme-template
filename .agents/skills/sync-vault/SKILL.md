@@ -5,9 +5,10 @@ description: Commit vault changes and push them to the configured Git remote.
 
 <!-- markdownlint-disable MD041 -->
 
-Check Git status. Stage modified and untracked vault files, excluding local
-settings and memory files. Write a concise commit message that describes the
-structure of the change, not sensitive note contents.
+Check Git status. Stage all vault changes, including added, modified, renamed,
+and deleted files. Exclude local settings and memory files. Write a concise
+commit message that describes the structure of the change, not sensitive note
+contents.
 
 Examples:
 
