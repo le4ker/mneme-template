@@ -21,8 +21,8 @@ for the motivation and design decisions behind Mneme.
   generated when you run `$setup`
 - **Periodic reviews** — `$review` surfaces stale notes, broken links, and
   orphaned content
-- **End-to-end encrypted** — `git-crypt` renders your markdown opaque in the
-  remote; only key holders can read your content
+- **Optional encryption** — configure `git-crypt` to encrypt Markdown files in
+  the remote; only key holders can read the encrypted content
 - **Git-backed** — every change is versioned; commit with `$sync-vault`
 - **Auto-formatting** — Prettier + markdownlint run on every commit via
   pre-commit hook
@@ -88,9 +88,12 @@ flowchart LR
 
 ## Privacy
 
-Your vault content is private by default — only you have access to your Git
-repository. For an extra layer of protection, you can encrypt all markdown files
-at rest with [git-crypt](https://github.com/AGWA/git-crypt):
+Git-crypt encryption is optional. If you enable it, configure it before running
+`$setup` or adding personal notes. It encrypts matching files when they are
+committed; commits made before encryption was configured remain unchanged.
+
+Install [git-crypt](https://github.com/AGWA/git-crypt), initialize it, and add
+your GPG key:
 
 ```sh
 brew install git-crypt
@@ -98,7 +101,7 @@ git-crypt init
 git-crypt add-gpg-user YOUR_GPG_KEY_ID
 ```
 
-Then add this to `.gitattributes`:
+Then add this to `.gitattributes` so Markdown files are encrypted in the remote:
 
 ```text
 **/*.md filter=git-crypt diff=git-crypt
@@ -125,8 +128,10 @@ keep them free of sensitive content.
    make install && make setup
    ```
 
-4. Open the vault in Obsidian (`File → Open Vault → select the repo folder`)
-5. Open the repo in Codex and invoke:
+4. If you want encrypted notes, configure `git-crypt` now using the steps in
+   [Privacy](#privacy), before `$setup` adds personal details.
+5. Open the vault in Obsidian (`File → Open Vault → select the repo folder`)
+6. Open the repo in Codex and invoke:
 
    ```text
    $setup
