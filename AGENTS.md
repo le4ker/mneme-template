@@ -7,8 +7,8 @@ build system or package manager.
 
 ## Getting Started
 
-If you just created this vault from the template, run `/setup` in Claude Code.
-It will ask you which Areas you want to track and generate your personal vault
+If you just created this vault from the template, invoke `$setup` in Codex. It
+will ask you which Areas you want to track and generate your personal vault
 structure and skills.
 
 ## Structure
@@ -19,7 +19,7 @@ structure and skills.
 
 ## Resources Lifecycle
 
-Notes land in `Resources/` when `/process-inbox` cannot confidently map them to
+Notes land in `Resources/` when `$process-inbox` cannot confidently map them to
 an existing Area. They are not permanent residents — treat `Resources/` as a
 staging ground, not an archive.
 
@@ -42,7 +42,7 @@ staging ground, not an archive.
 
 - It is no longer relevant and unlikely to be referenced again.
 
-The `/review` skill audits `Resources/` at each periodic review and surfaces
+The `$review` skill audits `Resources/` at each periodic review and surfaces
 candidates for promotion, merging, or deletion.
 
 ## Formatting
@@ -74,4 +74,4 @@ Rules (`.markdownlint.yaml`, `.prettierrc.yaml`):
 
 ## Content Areas
 
-<!-- Populated by /setup. Run it once to configure your Areas. -->
+<!-- Populated by $setup. Run it once to configure your Areas. -->
