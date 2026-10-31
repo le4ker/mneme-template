@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Install Markdown tools
+        run: npm install --global prettier@3.8.3 markdownlint-cli@0.49.1
+
+      - name: Check formatting
+        run: make check-format
+
+      - name: Lint Markdown
+        run: make lint
+
+      - name: Run tests
+        run: make test

@@ -139,3 +139,13 @@ keep them free of sensitive content.
 
    Codex will ask which Areas you want to track and generate your personal vault
    structure and skills. This is a one-time step.
+
+## Checks
+
+Run the formatting check, Markdown lint, and tests locally with:
+
+```sh
+make check
+```
+
+GitHub Actions runs the same checks on pushes and pull requests.
